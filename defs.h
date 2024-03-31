@@ -1,3 +1,5 @@
+// defs.h
+
 #ifndef DEFS_H
 #define DEFS_H
 
@@ -24,6 +26,8 @@ typedef unsigned long long U64;
 #define BRD_SQ_NUM 64
 
 #define MAXGAMEMOVES 2048
+
+#define START_FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 enum { EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK };
 enum { FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NONE };
@@ -74,7 +78,7 @@ typedef struct {
 
     int castlePerm;
 
-    U64 poskey;
+    U64 posKey;
 
     int pceNum[13];
     int bigPce[3];
@@ -101,6 +105,13 @@ typedef struct {
 /* GLOBALS */
 extern U64 SetMask[64];
 extern U64 ClearMask[64];
+extern U64 PieceKeys[13][64];
+extern U64 SideKey;
+extern U64 CastleKeys[16];
+extern char PceChar[];
+extern char SideChar[];
+extern char RankChar[];
+extern char FileChar[];
 
 /* FUNCTIONS */
 
@@ -111,6 +122,14 @@ extern void AllInit();
 extern void PrintBitBoard(U64 bb);
 extern int PopBit(U64 *bb);
 extern int CountBits(U64 b);
+
+// hashkeys.c
+extern U64 GeneratePosKey(const S_BOARD *pos);
+
+// board.c
+extern void ResetBoard(S_BOARD *pos);
+extern int ParseFen(char *fen, S_BOARD *pos);
+extern void PrintBoard(const S_BOARD *pos);
 
 
 
